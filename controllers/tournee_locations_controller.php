@@ -1,6 +1,7 @@
 <?php
 class TourneeLocationsController extends TourneeAppController {
 	var $uses = array('Tournee.TourneeLocation');
+	var $helpers = array('Tournee.Countries');
 	
 	function admin_index(){
 		$this->set('title_for_layout', __('Locations', true));

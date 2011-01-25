@@ -22,7 +22,11 @@
 			'label' => __('City', true)
 		));
 		echo $form->input('address_country', array(
-			'label' => __('Country', true)
+			'label' => __('Country', true),
+			'type' => 'select',
+			'options' => $countries->getCountries(),
+			'selected' => 'nl',
+			'empty' => false
 		));
 	?>
 	</fieldset>
