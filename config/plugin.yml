@@ -1,0 +1,11 @@
+name: Tournee
+description: -
+
+author: Justin van Wees
+authorEmail: justin@vwees.net
+authorUrl: http://justinvanwees.nl
+
+dependencies:
+  plugins:
+    - acl
+    - extensions
