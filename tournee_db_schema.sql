@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS `tournee_locations` (
 CREATE TABLE IF NOT EXISTS `tournee_tours` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `alternative_title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `start_date` date NOT NULL,
@@ -41,5 +42,6 @@ CREATE TABLE IF NOT EXISTS `tournee_tours` (
   `image_path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `slug` (`slug`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

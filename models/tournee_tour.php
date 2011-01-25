@@ -10,6 +10,16 @@ class TourneeTour extends TourneeAppModel {
 			'allowEmpty' => false,
 			'message' => 'Please enter a name for this location.'
 		),
+		'slug' => array(
+			'isUnique' => array(
+                'rule' => 'isUnique',
+                'message' => 'This slug has already been taken.',
+            ),
+            'minLength' => array(
+                'rule' => array('minLength', 1),
+                'message' => 'Slug cannot be empty.',
+            ),
+		)
 	);
 }
 ?>
