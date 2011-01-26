@@ -18,6 +18,8 @@
 		echo $form->input('start_date');
 		echo $form->input('end_date');
 		echo $form->input('file', array('label' => __('Picture/poster', true), 'type' => 'file'));
+		echo $form->input('image_description');
+		echo $form->input('image_creator');
 	?>
 	</fieldset>
 	<?php echo $form->end('Submit'); ?>

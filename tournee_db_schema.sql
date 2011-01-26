@@ -40,6 +40,8 @@ CREATE TABLE IF NOT EXISTS `tournee_tours` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `image_path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `image_description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `image_creator` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),
