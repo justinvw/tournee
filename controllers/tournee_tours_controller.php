@@ -1,13 +1,32 @@
 <?php
 class TourneeToursController extends TourneeAppController {
-	var $uses = array('Tournee.TourneeTour');
+	var $uses = array('Tournee.TourneeEvent', 'Tournee.TourneeTour');
 	var $uploadsDir = 'uploads';
 	
 	function admin_index(){
 		$this->set('title_for_layout', __('Tours', true));
+		
+		$this->TourneeTour->recursive = 0;
 		$tours = $this->paginate('TourneeTour');
 		
 		$this->set(compact('tours'));
+	}
+	
+	function admin_view($id = null){
+		if(!$id){
+			$this->Session->setFlash(__('Invalid content', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		
+		$this->TourneeTour->recursive = 3;
+		$tour = $this->TourneeTour->findById($id);
+		if(!$tour) {
+			$this->Session->setFlash(__('The tour does not exist.', true));
+			$this->redirect(array('action' => 'index'));
+		}
+		
+		$this->set('title_for_layout', sprintf(__('Tour: %s', true), $tour['TourneeTour']['title']));
+		$this->set(compact('tour'));
 	}
 	
 	function admin_add(){

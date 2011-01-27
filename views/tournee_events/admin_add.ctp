@@ -3,7 +3,7 @@
 	<?php echo $form->create('TourneeEvent', array('action' => 'add')); ?>
 	<fieldset>
 	<?php
-		echo $form->input('tournee_tour_id', array('label' => __('Tour', true), 'type' => 'select', 'options' => $tours, 'empty' => true));
+		echo $form->input('tournee_tour_id', array('label' => __('Tour', true), 'type' => 'select', 'options' => $tours, 'empty' => true, 'selected' => $tour_id));
 		echo $form->input('tournee_location_id', array('label' => __('Location', true), 'type' => 'select', 'options' => $locations, 'empty' => true));
 		echo $form->input('title', array('label' => __('Title (additonal to the tour\'s title)', true)));
 		echo $form->input('description', array('label' => __('Description (additonal to the tour\'s description)', true)));

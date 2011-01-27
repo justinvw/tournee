@@ -3,6 +3,13 @@ class TourneeTour extends TourneeAppModel {
 	var $name = 'TourneeTour';
 	var $useTable = 'tournee_tours';
 	
+	var $hasMany = array(
+		'TourneeEvent' => array(
+			'classname' => 'Trounee.TourEvent',
+			'dependent' => true
+		)
+	);
+	
 	var $validate = array(
 		'title' => array(
 			'rule' => 'notEmpty',

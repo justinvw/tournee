@@ -9,7 +9,7 @@ class TourneeEventsController extends TourneeAppController {
 		$this->set(compact('events'));
 	}
 	
-	function admin_add(){
+	function admin_add($tour_id = null){
 		$this->set('title_for_layout', __('Add an event', true));
 		
 		if(!empty($this->data)){
@@ -26,7 +26,7 @@ class TourneeEventsController extends TourneeAppController {
 		$tours = $this->TourneeEvent->TourneeTour->find('list');
 		$locations = $this->TourneeEvent->TourneeLocation->find('list');
 		
-		$this->set(compact('tours', 'locations'));
+		$this->set(compact('tours', 'locations', 'tour_id'));
 	}
 	
 	function admin_edit($id = null){

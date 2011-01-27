@@ -6,7 +6,7 @@
 			<li><?php echo $html->link(__('Add a tour', true), array('action' => 'add')); ?></li>
 		</ul>
 	</div>
-
+	
 	<table cellpadding="0" cellspacing="0">
 		<?php
 			$tableHeaders = $html->tableHeaders(array(
@@ -27,11 +27,11 @@
 				$actions .= ' ' . $html->link(__('Delete', true), array(
 					'action' => 'delete',
 					$tour['TourneeTour']['id']
-				), null, __('Are you sure?', true));
+				), null, __('Are you sure you want delete this tour and all it\'s associated events?', true));
 			
 				$rows[] = array(
 					$tour['TourneeTour']['id'],
-					$tour['TourneeTour']['title'],
+					$html->link($tour['TourneeTour']['title'], array('action' => 'view', $tour['TourneeTour']['id'])),
 					$tour['TourneeTour']['start_date'],
 					$tour['TourneeTour']['end_date'],
 					$tour['TourneeTour']['updated'],

@@ -27,7 +27,7 @@
 				$actions .= ' ' . $html->link(__('Delete', true), array(
 					'action' => 'delete',
 					$location['TourneeLocation']['id']
-				), null, __('Are you sure?', true));
+				), null, __('Are you sure you want delete this location and all it\'s associated events?', true));
 			
 				$rows[] = array(
 					$location['TourneeLocation']['id'],
