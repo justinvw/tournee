@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `tournee_events` (
   `end_datetime` datetime NOT NULL,
   `tournee_tour_id` int(11) NOT NULL,
   `tournee_location_id` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -42,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `tournee_tours` (
   `image_path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image_description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image_creator` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),

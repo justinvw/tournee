@@ -1,8 +1,8 @@
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		$("#TourneeTourTitle").slug({
-		        slug: 'slug',
-		        hide: false
+				slug: 'slug',
+				hide: false
 		});
 	});
 </script>
@@ -20,6 +20,7 @@
 		echo $form->input('file', array('label' => __('Picture/poster', true), 'type' => 'file'));
 		echo $form->input('image_description');
 		echo $form->input('image_creator');
+		echo $form->input('status', array('label' => __('Published', true)));
 	?>
 	</fieldset>
 	<?php echo $form->end('Submit'); ?>

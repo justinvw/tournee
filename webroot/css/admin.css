@@ -1,0 +1,29 @@
+/* @override http://localhost/kieken/webroot/tournee/css/admin.css */
+
+.tournee .info {
+	float: left;
+	padding: 10px;
+	background: #eee;
+	margin: 0 0 10px 0;
+	width: 920px;
+}
+
+.tournee .info table {
+	border: none;
+	border-top: 1px solid #dfdfdf;
+	border-bottom: 1px solid #dfdfdf;
+	vertical-align: top;
+	background: none;
+}
+
+.tournee .info table tr td {
+	vertical-align: top;
+}
+
+.tournee .info table tr td:first-child {
+	font-weight: bold;
+}
+
+.tournee .info table tr.striped {
+	background: none;
+}

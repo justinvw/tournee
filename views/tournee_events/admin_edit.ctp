@@ -9,6 +9,7 @@
 		echo $form->input('description', array('label' => __('Description (additonal to the tour\'s description)', true)));
 		echo $form->input('start_datetime');
 		echo $form->input('end_datetime');
+		echo $form->input('status', array('label' => __('Published', true)));
 	?>
 	</fieldset>
 	<?php echo $form->end('Submit'); ?>
