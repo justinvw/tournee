@@ -24,21 +24,30 @@ class TourneeEventsController extends TourneeAppController {
 						$this->TourneeEvent->read(null, $this->TourneeEvent->id);
 						$this->TourneeEvent->set(array('facebook_event_id' => $fb_event['id']));
 						$this->TourneeEvent->save();
-						$flash_message = __('Event saved and posted to Facebook!', true);
+						$flash_message = array(
+							'message' => __('Event saved and posted to Facebook', true),
+							'class' => 'success'
+						);
 					}
 					else {
-						$flash_message = __('Event saved, but there was a problem posting it to Facebook', true);
+						$flash_message = array(
+							'message' => __('Event saved, but there was a problem posting it to Facebook', true),
+							'class' => 'error'
+						);
 					}
 				}
 				else {
-					$flash_message = __('Event saved!', true);
+					$flash_message = array(
+						'message' => __('Event saved!', true),
+						'class' => 'success'
+					);
 				}
 				
-				$this->Session->setFlash($flash_message);
+				$this->Session->setFlash($flash_message['message'], 'default', array('class' => $flash_message['class']));
 				$this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
 			}
 			else {
-				$this->Session->setFlash(sprintf(__('The event could not be saved. Please, try again.', true)));
+				$this->Session->setFlash(sprintf(__('The event could not be saved. Please, try again', true)), 'default', array('class' => 'success'));
 			}
 		}
 		if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
@@ -75,10 +84,16 @@ class TourneeEventsController extends TourneeAppController {
 					if($event['TourneeEvent']['facebook_event_id']){
 						$fb_event = $this->__update_facebook_event($event['TourneeEvent']['facebook_event_id'], $this->data);
 						if($fb_event == 1){
-							$flash_message = __('Event updated and posted to Facebook!', true);
+							$flash_message = array(
+								'message' => __('Event updated and posted to Facebook', true),
+								'class' => 'success'
+							);
 						}
 						else {
-							$flash_message = __('Event updated, but there was a problem posting it to Facebook', true);
+							$flash_message = array(
+								'message' => __('Event updated, but there was a problem posting it to Facebook', true),
+								'class' => 'error'
+							);
 						}
 					}
 					else {
@@ -87,18 +102,27 @@ class TourneeEventsController extends TourneeAppController {
 							$this->TourneeEvent->read(null, $this->TourneeEvent->id);
 							$this->TourneeEvent->set(array('facebook_event_id' => $fb_event['id']));
 							$this->TourneeEvent->save();
-							$flash_message = __('Event updated and posted to Facebook!', true);
+							$flash_message = array(
+								'message' => __('Event updated and posted to Facebook', true),
+								'class' => 'success'
+							);
 						}
 						else {
-							$flash_message = __('Event updated, but there was a problem posting it to Facebook', true);
+							$flash_message = array(
+								'message' => __('Event updated, but there was a problem posting it to Facebook', true),
+								'class' => 'error'
+							);
 						}
 					}
 				}
 				else {
-					$flash_message = __('The event has been saved.', true);
+					$flash_message = array(
+						'message' => __('The event has been saved', true),
+						'class' => 'success'
+					);
 				}
 				
-				$this->Session->setFlash($flash_message);
+				$this->Session->setFlash($flash_message['message'], 'default', array('class' => $flash_message['class']));
                 $this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
 			}
 			else {
@@ -127,10 +151,28 @@ class TourneeEventsController extends TourneeAppController {
 		$event = $this->TourneeEvent->findById($id);
 		
 		if($this->TourneeEvent->delete($id)){
-			if(!empty($event['TourneeEvent']['facebook_event_id'])){
-				$this->__delete_facebook_event($event['TourneeEvent']['facebook_event_id']);
+			if($event['TourneeEvent']['facebook_event_id'] != 0){
+				$fb_event = $this->__delete_facebook_event($event['TourneeEvent']['facebook_event_id']);
+				if($fb_event == 1){
+					$flash_message = array(
+						'message' => __('Event deleted from database and Facebook', true),
+						'class' => 'success'
+					);
+				}
+				else {
+					$flash_message = array(
+						'message' => __('Event deleted from database, but there was a problem deleting it from Facebook', true),
+						'class' => 'error'
+					);
+				}
 			}
-			$this->Session->setFlash(__('Event deleted', true), 'default', array('class' => 'success'));
+			else {
+				$flash_message = array(
+					'message' => __('Event deleted', true),
+					'class' => 'success'
+				);
+			}
+			$this->Session->setFlash($flash_message['message'], 'default', array('class' => $flash_message['class']));
             $this->redirect(array('action' => 'index'));
 		}
 		else {
