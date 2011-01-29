@@ -26,7 +26,7 @@ class TourneeToursController extends TourneeAppController {
 	function view($id = null){
 		$this->TourneeTour->recursive = 2;
 		
-		if(isset($this->params['named']['slug'])){
+		if(isset($this->params['slug'])){
 			$tour = $this->TourneeTour->find('first', array(
 				'conditions' => array(
 					'TourneeTour.slug' => $this->params['named']['slug'],
