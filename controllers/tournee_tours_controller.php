@@ -45,9 +45,9 @@ class TourneeToursController extends TourneeAppController {
 		
 		if(!isset($tour['TourneeTour']['id'])){
 			$this->Session->setFlash(__('This tour does not exist!', true), 'default', array('class' => 'error'));
-            $this->redirect(array('action', 'index'));
+            $this->redirect('/');
 		}
-
+		debug($tour);
 		$this->set('title_for_layout', $tour['TourneeTour']['title']);
 		$this->set(compact('tour'));
 	}
