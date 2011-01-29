@@ -7,6 +7,29 @@ class TourneeEventsController extends TourneeAppController {
 		$this->set('title_for_layout', __('Events', true));
 		$events = $this->paginate('TourneeEvent');
 		
+		if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
+			App::import('Vendor', 'Tournee.facebook/src/facebook');
+			$facebook = new Facebook(array(
+				'appId' => Configure::read('Tournee.facebook_app_id'),
+				'secret' => Configure::read('Tournee.facebook_app_secret'),
+				'cookie' => true
+			));
+
+			$session = $facebook->getSession();
+			if($session){
+				try {
+				 	$fb_user = $facebook->api('/me');
+				}
+				catch(FacebookApiException $e){
+					error_log($e);
+				}
+				
+				if(isset($fb_user)){
+					$this->set(compact('fb_user'));
+				}
+			}
+		}
+		
 		$this->set(compact('events'));
 	}
 	
@@ -179,6 +202,20 @@ class TourneeEventsController extends TourneeAppController {
 			$this->Session->setFlash(__('Failed to delete the event', true), 'default', array('class' => 'error'));
             $this->redirect(array('action' => 'index'));
 		}
+	}
+	
+	function admin_facebook_logout(){
+		App::import('Vendor', 'Tournee.facebook/src/facebook');
+		$facebook = new Facebook(array(
+			'appId' => Configure::read('Tournee.facebook_app_id'),
+			'secret' => Configure::read('Tournee.facebook_app_secret'),
+			'cookie' => true
+		));
+		
+		$session = $facebook->getSession();
+
+		$logout_url = $facebook->getLogoutUrl(array('next' => Router::url(array('plugin' => 0, 'controller' => 'users', 'action' => 'logout'), true)));
+		$this->redirect($logout_url);
 	}
 	
 	function __connect_to_facebook(){

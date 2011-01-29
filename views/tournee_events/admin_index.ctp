@@ -1,6 +1,16 @@
+<?php echo $html->css('/tournee/css/admin.css', 'stylesheet', array('inline' => false)); ?>
 <div id="tournee_events" class="tournee index">
-	<h2><?php echo $title_for_layout; ?></h2>
-
+	<h2>
+		<?php 
+			echo '<span>'.$title_for_layout.'</span>';
+			if(isset($fb_user)){
+				echo '<div id="facebook_logout">';
+				printf(__('Logged in to facebook as %s', true), $fb_user['name']);
+				echo '<br />'.$html->link('Logout', array('action' => 'facebook_logout')).'</div>';
+			}
+		?>
+	</h2>
+	
 	<div class="actions">
 		<ul>
 			<li><?php echo $html->link(__('Add an event', true), array('action' => 'add')); ?></li>

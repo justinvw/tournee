@@ -1,4 +1,21 @@
-/* @override http://localhost/kieken/webroot/tournee/css/admin.css */
+/* @override 
+	http://localhost.local/kieken/webroot/tournee/css/admin.css
+*/
+#tournee_events.index h2 {
+	float: left;
+	width: 100%;
+}
+
+#tournee_events.index h2 span {
+	float: left;
+}
+
+#tournee_events.index h2 #facebook_logout{
+	float: right;
+	font-size: 13px;
+	margin: 5px;
+	text-align: right;
+}
 
 .tournee .info {
 	float: left;
