@@ -20,7 +20,7 @@ class TourneeToursController extends TourneeAppController {
 		));
 		
 		
-		$this->compact('running_tours', 'past_tours');
+		$this->set(compact('running_tours', 'past_tours'));
 	}
 	
 	function view($id = null){
