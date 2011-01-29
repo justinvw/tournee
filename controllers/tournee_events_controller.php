@@ -70,7 +70,7 @@ class TourneeEventsController extends TourneeAppController {
 				$this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
 			}
 			else {
-				$this->Session->setFlash(sprintf(__('The event could not be saved. Please, try again', true)), 'default', array('class' => 'success'));
+				$this->Session->setFlash(sprintf(__('The event could not be saved. Please, try again', true)), 'default', array('class' => 'error'));
 			}
 		}
 		if(Configure::read('Tournee.facebook_intergration') == 'enabled'){

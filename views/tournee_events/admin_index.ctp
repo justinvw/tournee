@@ -5,7 +5,7 @@
 			echo '<span>'.$title_for_layout.'</span>';
 			if(isset($fb_user)){
 				echo '<div id="facebook_logout">';
-				printf(__('Logged in to facebook as %s', true), $fb_user['name']);
+				printf(__('Logged in to Facebook as %s', true), $fb_user['name']);
 				echo '<br />'.$html->link('Logout', array('action' => 'facebook_logout')).'</div>';
 			}
 		?>

@@ -3,6 +3,55 @@ class TourneeToursController extends TourneeAppController {
 	var $uses = array('Tournee.TourneeEvent', 'Tournee.TourneeTour');
 	var $uploadsDir = 'uploads';
 	
+	function index(){
+		$this->TourneeTour->recursive = 0;
+		$running_tours = $this->TourneeTour->find('all', array(
+			'conditions' => array(
+				'end_date >=' => date('Y-m-d'),
+				'status' => 1
+			)
+		));
+		
+		$past_tours = $this->TourneeTour->find('all', array(
+			'conditions' => array(
+				'end_date <' => date('Y-m-d'),
+				'status' => 1
+			)
+		));
+		
+		
+		$this->compact('running_tours', 'past_tours');
+	}
+	
+	function view($id = null){
+		$this->TourneeTour->recursive = 2;
+		
+		if(isset($this->params['named']['slug'])){
+			$tour = $this->TourneeTour->find('first', array(
+				'conditions' => array(
+					'TourneeTour.slug' => $this->params['named']['slug'],
+					'TourneeTour.status' => 1,
+				)
+			));
+		}
+		else {
+			$tour = $this->TourneeTour->find('first', array(
+				'conditions' => array(
+					'TourneeTour.id' => $id,
+					'TourneeTour.status' => 1
+				)
+			));
+		}
+		
+		if(!isset($tour['TourneeTour']['id'])){
+			$this->Session->setFlash(__('This tour does not exist!', true), 'default', array('class' => 'error'));
+            $this->redirect(array('action', 'index'));
+		}
+
+		$this->set('title_for_layout', $tour['TourneeTour']['title']);
+		$this->set(compact('tour'));
+	}
+	
 	function admin_index(){
 		$this->set('title_for_layout', __('Tours', true));
 		
