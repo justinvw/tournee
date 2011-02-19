@@ -10,6 +10,15 @@ class TourneeTour extends TourneeAppModel {
 		)
 	);
 	
+	var $hasAndBelongsToMany = array(
+		'Node' => array(
+			'className' => 'Node',
+			'joinTable' => 'tournee_nodes_tours',
+			'foreignKey' => 'tournee_tour_id',
+			'associationForeignKey' => 'node_id',
+		)
+	);
+	
 	var $validate = array(
 		'title' => array(
 			'rule' => 'notEmpty',
