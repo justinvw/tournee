@@ -1,3 +1,6 @@
+Tournee.node_reivew_types:
+    - your-review-content-type
+    - another-review-content-type
 Tournee.facebook_intergration: disabled
 Tournee.facebook_app_id: your-fb-app-id
 Tournee.facebook_app_secret: your-fb-app-secret
