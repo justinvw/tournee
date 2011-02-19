@@ -110,8 +110,12 @@ class TourneeToursController extends TourneeAppController {
 				$this->Session->setFlash(sprintf(__('The tour could not be saved. Please, try again.', true)));
 			}
 		}
-		
-		$reviews = $this->TourneeTour->Node->find('list');
+
+		$reviews = $this->TourneeTour->Node->find('list', array(
+			'conditions' => array(
+				'Node.type' => Configure::read('Tournee.node_reivew_types')
+			)
+		));
 		
 		$this->set(compact('reviews'));
 	}
@@ -121,9 +125,7 @@ class TourneeToursController extends TourneeAppController {
 			$this->Session->setFlash(__('Invalid content', true));
 			$this->redirect(array('action' => 'index'));
 		}
-		
-		#debug($this);
-		
+				
 		$tour = $this->TourneeTour->findById($id);
 		if(!$tour) {
 			$this->Session->setFlash(__('The tour does not exist.', true));
@@ -163,7 +165,11 @@ class TourneeToursController extends TourneeAppController {
 		}
 		
 		$this->data = $tour;
-		$reviews = $this->TourneeTour->Node->find('list');
+		$reviews = $this->TourneeTour->Node->find('list', array(
+			'conditions' => array(
+				'Node.type' => Configure::read('Tournee.node_reivew_types')
+			)
+		));
 		
 		$this->set(compact('reviews'));
 	}
