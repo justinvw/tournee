@@ -50,3 +50,10 @@ CREATE TABLE IF NOT EXISTS `tournee_tours` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `tournee_nodes_tours` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tournee_tour_id` int(11) NOT NULL,
+  `node_id` int(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

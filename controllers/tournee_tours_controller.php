@@ -47,7 +47,7 @@ class TourneeToursController extends TourneeAppController {
 			$this->Session->setFlash(__('This tour does not exist!', true), 'default', array('class' => 'error'));
             $this->redirect('/');
 		}
-		debug($tour);
+
 		$this->set('title_for_layout', $tour['TourneeTour']['title']);
 		$this->set(compact('tour'));
 	}
@@ -110,6 +110,10 @@ class TourneeToursController extends TourneeAppController {
 				$this->Session->setFlash(sprintf(__('The tour could not be saved. Please, try again.', true)));
 			}
 		}
+		
+		$reviews = $this->TourneeTour->Node->find('list');
+		
+		$this->set(compact('reviews'));
 	}
 	
 	function admin_edit($id = null){
@@ -117,6 +121,8 @@ class TourneeToursController extends TourneeAppController {
 			$this->Session->setFlash(__('Invalid content', true));
 			$this->redirect(array('action' => 'index'));
 		}
+		
+		#debug($this);
 		
 		$tour = $this->TourneeTour->findById($id);
 		if(!$tour) {
@@ -141,7 +147,6 @@ class TourneeToursController extends TourneeAppController {
 				$this->data['TourneeTour']['image_path'] = '/'. $this->uploadsDir.'/'.$newFileName;
 			}
 			
-						
 			$this->TourneeTour->id = $id;
 			if($this->TourneeTour->save($this->data)){
 				if(isset($destination)){
@@ -158,6 +163,9 @@ class TourneeToursController extends TourneeAppController {
 		}
 		
 		$this->data = $tour;
+		$reviews = $this->TourneeTour->Node->find('list');
+		
+		$this->set(compact('reviews'));
 	}
 	
 	function admin_delete($id = null){
