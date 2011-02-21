@@ -7,6 +7,10 @@ class TourneeTour extends TourneeAppModel {
 		'TourneeEvent' => array(
 			'classname' => 'Trounee.TourEvent',
 			'dependent' => true
+		),
+		'TourneePhoto' => array(
+			'classname' => 'Tournee.TourPhoto',
+			'dependent' => true
 		)
 	);
 	

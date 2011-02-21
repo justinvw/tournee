@@ -1,6 +1,7 @@
 /* @override 
 	http://localhost.local/kieken/webroot/tournee/css/admin.css
 */
+
 #tournee_events.index h2 {
 	float: left;
 	width: 100%;
@@ -10,7 +11,7 @@
 	float: left;
 }
 
-#tournee_events.index h2 #facebook_logout{
+#tournee_events.index h2 #facebook_logout {
 	float: right;
 	font-size: 13px;
 	margin: 5px;
@@ -43,4 +44,9 @@
 
 .tournee .info table tr.striped {
 	background: none;
+}
+
+#tournee_tours.form #tour-photos ul li{
+	float: left;
+	width: 200px;
 }
