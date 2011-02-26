@@ -1,7 +1,7 @@
 <?php
 	Croogo::hookRoutes('Tournee');
 	#Croogo::hookBehavior('Node', 'Example.Example', array());
-	#Croogo::hookComponent('*', 'Example.Example');
+	Croogo::hookComponent('Nodes', 'Tournee.TourneeUpcomming');
 	#Croogo::hookHelper('Nodes', 'Example.Example');
 	Croogo::hookAdminMenu('Tournee');
 	#Croogo::hookAdminRowAction('Nodes/admin_index', 'Example', 'plugin:example/controller:example/action:index/:id');
