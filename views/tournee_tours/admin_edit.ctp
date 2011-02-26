@@ -43,7 +43,7 @@
 					<ul>
 					<?php foreach($this->data['TourneePhoto'] as $photo): ?>
 						<li>
-							<?php echo $html->image($photo['image_path'], array('width' => '170px')); ?>
+							<?php echo $html->image('/uploads/'.'small_'.$photo['image_path'], array('width' => '170px')); ?>
 							<?php echo $html->link('Delete', array('controller' => 'tournee_photos', 'action' => 'delete', $photo['id'])); ?>
 						</li>
 					<?php endforeach; ?>

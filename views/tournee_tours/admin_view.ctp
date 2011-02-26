@@ -11,7 +11,7 @@
 	
 	<div class="info ui-corner-all">
 		<div class="grid_4">
-			<?php echo $html->image($tour['TourneeTour']['image_path'], array('width' => '200px')); ?>
+			<?php echo $html->image('/uploads/'.'med_'.$tour['TourneeTour']['image_path'], array('width' => '200px')); ?>
 			<p><?php printf(__('Photo by: %s', true), $tour['TourneeTour']['image_creator']); ?></p>
 		</div>
 		<div class="grid_11">
