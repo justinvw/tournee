@@ -1,7 +1,7 @@
 <?php
 class TourneeToursController extends TourneeAppController {
 	var $uses = array('Tournee.TourneeEvent', 'Tournee.TourneeTour');
-	var $uploadsDir = 'uploads';
+	var $components = array('Tournee.Imageupload');
 	
 	function index(){
 		$this->TourneeTour->recursive = 0;
@@ -84,25 +84,12 @@ class TourneeToursController extends TourneeAppController {
 		if(!empty($this->data)){
 			if(!empty($this->data['TourneeTour']['file']) && $this->data['TourneeTour']['file']['error'] == 0){
 				$file = $this->data['TourneeTour']['file'];
-				unset($this->data['TourneeTour']['file']);
-				$destination = WWW_ROOT.$this->uploadsDir.DS.$file['name'];
-				if(file_exists($destination)){
-					$newFileName = String::uuid().'_'.$file['name'];
-					$destination = WWW_ROOT.$this->uploadsDir.DS.$newFileName;
-				}
-				else {
-					$newFileName = $file['name'];
-				}
-				$this->data['TourneeTour']['image_path'] = '/'. $this->uploadsDir.'/'.$newFileName;
+				$this->data['TourneeTour']['image_path'] = $this->Imageupload($file);
 			}
 			
 			$this->TourneeTour->create();
 			
 			if($this->TourneeTour->save($this->data)){
-				if(isset($destination)){
-					move_uploaded_file($file['tmp_name'], $destination);
-				}
-				
 				$this->Session->setFlash(sprintf(__('%s has been saved', true), $this->data['TourneeTour']['title']));
                 $this->redirect(array('controller' => 'tournee_tours', 'action' => 'index'));
 			}
@@ -136,26 +123,15 @@ class TourneeToursController extends TourneeAppController {
 		
 		if(!empty($this->data)){
 			if(!empty($this->data['TourneeTour']['file']) && $this->data['TourneeTour']['file']['error'] == 0){
+				$this->Imageupload->delete($tour['TourneeTour']['image_path']);
+				
 				$file = $this->data['TourneeTour']['file'];
 				unset($this->data['TourneeTour']['file']);
-				$destination = WWW_ROOT.$this->uploadsDir.DS.$file['name'];
-				if(file_exists($destination)){
-					$newFileName = String::uuid().'_'.$file['name'];
-					$destination = WWW_ROOT.$this->uploadsDir.DS.$newFileName;
-				}
-				else {
-					$newFileName = $file['name'];
-				}
-				$this->data['TourneeTour']['image_path'] = '/'. $this->uploadsDir.'/'.$newFileName;
+				$this->data['TourneeTour']['image_path'] = $this->Imageupload->upload($file);
 			}
 			
 			$this->TourneeTour->id = $id;
 			if($this->TourneeTour->save($this->data)){
-				if(isset($destination)){
-					unlink(WWW_ROOT.$tour['TourneeTour']['image_path']);
-					move_uploaded_file($file['tmp_name'], $destination);
-				}
-				
 				$this->Session->setFlash(sprintf(__('%s has been saved', true), $this->data['TourneeTour']['title']));
                 $this->redirect(array('controller' => 'tournee_tours', 'action' => 'index'));
 			}
@@ -183,8 +159,10 @@ class TourneeToursController extends TourneeAppController {
 		$tour = $this->TourneeTour->findById($id);
 		
 		if($this->TourneeTour->delete($id)){
-			if(!empty($tour['TourneeTour']['image_path'])){
-				unlink(WWW_ROOT.$tour['TourneeTour']['image_path']);
+			$this->Imageupload->delete($tour['TourneeTour']['image_path']);
+			
+			foreach($tour['TourneePhoto'] as $photo){
+				$this->Imageupload->delete($photo['image_path']);
 			}
 			
 			$this->Session->setFlash(__('Tour deleted', true), 'default', array('class' => 'success'));
