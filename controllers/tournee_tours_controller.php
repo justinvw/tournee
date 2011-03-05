@@ -123,7 +123,9 @@ class TourneeToursController extends TourneeAppController {
 		
 		if(!empty($this->data)){
 			if(!empty($this->data['TourneeTour']['file']) && $this->data['TourneeTour']['file']['error'] == 0){
-				$this->Imageupload->delete($tour['TourneeTour']['image_path']);
+				if(!empty($tour['TourneeTour']['image_path'])){
+					$this->Imageupload->delete($tour['TourneeTour']['image_path']);
+				}
 				
 				$file = $this->data['TourneeTour']['file'];
 				unset($this->data['TourneeTour']['file']);

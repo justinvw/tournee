@@ -8,8 +8,8 @@ class ImageuploadComponent extends Object {
 		'quality' => 100,
 		'thumbnails' => array(
 			'big' => array(600, 800, 'resize'),
-			'med' => array(300, 400, 'resizeCrop'),
-			'small' => array(100,  100, 'resizeCrop')
+			'med' => array(300, 400, 'resize'),
+			'small' => array(100,  100, 'resize')
 		)
 	);
 	
