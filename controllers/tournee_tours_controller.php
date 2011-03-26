@@ -8,6 +8,7 @@ class TourneeToursController extends TourneeAppController {
 		$running_tours = $this->TourneeTour->find('all', array(
 			'conditions' => array(
 				'end_date >=' => date('Y-m-d'),
+				'order' => 'start_date ASC',
 				'status' => 1
 			)
 		));
@@ -15,6 +16,7 @@ class TourneeToursController extends TourneeAppController {
 		$past_tours = $this->TourneeTour->find('all', array(
 			'conditions' => array(
 				'end_date <' => date('Y-m-d'),
+				'order' => 'end_date DESC',
 				'status' => 1
 			)
 		));
@@ -31,7 +33,8 @@ class TourneeToursController extends TourneeAppController {
 				'conditions' => array(
 					'TourneeTour.slug' => $this->params['named']['slug'],
 					'TourneeTour.status' => 1,
-				)
+				),
+				'order' => 'TourneeEvent.start_datetime DESC'
 			));
 		}
 		else {
@@ -39,7 +42,8 @@ class TourneeToursController extends TourneeAppController {
 				'conditions' => array(
 					'TourneeTour.id' => $id,
 					'TourneeTour.status' => 1
-				)
+				),
+				'order' => 'TourneeEvent.start_datetime DESC'
 			));
 		}
 		

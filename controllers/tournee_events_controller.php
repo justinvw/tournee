@@ -78,7 +78,15 @@ class TourneeEventsController extends TourneeAppController {
 		}
 
 		$tours = $this->TourneeEvent->TourneeTour->find('list');
-		$locations = $this->TourneeEvent->TourneeLocation->find('list');
+		$locations_available = $this->TourneeEvent->TourneeLocation->find('all', array(
+			'fields' => array('id', 'name', 'address_country', 'address_city'),
+			'order' => array('address_country', 'address_city', 'name')
+		));
+		
+		$locations = array();
+		foreach($locations_available as $location){
+			$locations[$location['TourneeLocation']['id']] = $location['TourneeLocation']['name'].' ('.$location['TourneeLocation']['address_city'].')';
+		}
 		
 		$this->set(compact('tours', 'locations', 'tour_id'));
 	}
@@ -160,7 +168,16 @@ class TourneeEventsController extends TourneeAppController {
 		}
 			
 		$tours = $this->TourneeEvent->TourneeTour->find('list');
-		$locations = $this->TourneeEvent->TourneeLocation->find('list');
+		$this->TourneeEvent->TourneeLocation->recursive = 0;
+		$locations_available = $this->TourneeEvent->TourneeLocation->find('all', array(
+			'fields' => array('id', 'name', 'address_country', 'address_city'),
+			'order' => array('address_country', 'address_city', 'name')
+		));
+		
+		$locations = array();
+		foreach($locations_available as $location){
+			$locations[$location['TourneeLocation']['id']] = $location['TourneeLocation']['name'].' ('.$location['TourneeLocation']['address_city'].')';
+		}
 		
 		$this->set(compact('tours', 'locations'));		
 	}
