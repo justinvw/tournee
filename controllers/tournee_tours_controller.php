@@ -34,7 +34,6 @@ class TourneeToursController extends TourneeAppController {
 					'TourneeTour.slug' => $this->params['named']['slug'],
 					'TourneeTour.status' => 1,
 				),
-				'order' => 'TourneeEvent.start_datetime DESC'
 			));
 		}
 		else {
@@ -43,7 +42,6 @@ class TourneeToursController extends TourneeAppController {
 					'TourneeTour.id' => $id,
 					'TourneeTour.status' => 1
 				),
-				'order' => 'TourneeEvent.start_datetime DESC'
 			));
 		}
 		
