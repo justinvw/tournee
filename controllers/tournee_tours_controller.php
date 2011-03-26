@@ -8,17 +8,17 @@ class TourneeToursController extends TourneeAppController {
 		$running_tours = $this->TourneeTour->find('all', array(
 			'conditions' => array(
 				'end_date >=' => date('Y-m-d'),
-				'order' => 'start_date ASC',
 				'status' => 1
-			)
+			),
+			'order' => 'start_date ASC',
 		));
 		
 		$past_tours = $this->TourneeTour->find('all', array(
 			'conditions' => array(
 				'end_date <' => date('Y-m-d'),
-				'order' => 'end_date DESC',
 				'status' => 1
-			)
+			),
+			'order' => 'end_date DESC',
 		));
 		
 		
