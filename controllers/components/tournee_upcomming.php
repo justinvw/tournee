@@ -6,7 +6,7 @@ class TourneeUpcommingComponent extends Object {
 			'conditions' => array(
 				'date(TourneeEvent.start_datetime) >=' => date('Y-m-d')
 			),
-			'order' => 'TourneeEvent.start_datetime DESC',
+			'order' => 'TourneeEvent.start_datetime ASC',
 			'limit' => '0,10'
 		));
 		$controller->set('tournee_upcomming_events', $events);
