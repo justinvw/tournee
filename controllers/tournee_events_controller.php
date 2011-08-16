@@ -309,7 +309,8 @@ class TourneeEventsController extends TourneeAppController {
 				'privacy' => 'OPEN',
 			);
             
-            if(!empty(Configure::read('Tournee.facebook_app_id'))){
+            $facebook_app_id = Configure::read('Tournee.facebook_app_id');
+            if(!empty($facebook_app_id)){
                 $fb_event_array['page_id'] = Configure::read('Tournee.facebook_app_id');
             }
             
@@ -358,7 +359,8 @@ class TourneeEventsController extends TourneeAppController {
 				'privacy' => 'OPEN',
 			);
 			
-			if(!empty(Configure::read('Tournee.facebook_app_id'))){
+			$facebook_app_id = Configure::read('Tournee.facebook_app_id');
+			if(!empty($facebook_app_id)){
                 $fb_event_array['page_id'] = Configure::read('Tournee.facebook_app_id');
             }
 			
