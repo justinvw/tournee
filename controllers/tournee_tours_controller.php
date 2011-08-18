@@ -86,7 +86,7 @@ class TourneeToursController extends TourneeAppController {
 		if(!empty($this->data)){
 			if(!empty($this->data['TourneeTour']['file']) && $this->data['TourneeTour']['file']['error'] == 0){
 				$file = $this->data['TourneeTour']['file'];
-				$this->data['TourneeTour']['image_path'] = $this->Imageupload($file);
+				$this->data['TourneeTour']['image_path'] = $this->Imageupload->upload($file);
 			}
 			
 			$this->TourneeTour->create();

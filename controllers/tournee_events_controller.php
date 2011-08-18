@@ -309,9 +309,9 @@ class TourneeEventsController extends TourneeAppController {
 				'privacy' => 'OPEN',
 			);
             
-            $facebook_app_id = Configure::read('Tournee.facebook_app_id');
-            if(!empty($facebook_app_id)){
-                $fb_event_array['page_id'] = Configure::read('Tournee.facebook_app_id');
+            $facebook_page_id = Configure::read('Tournee.facebook_page_id');
+            if(!empty($facebook_page_id)){
+                $fb_event_array['page_id'] = Configure::read('Tournee.facebook_page_id');
             }
             
 			return $facebook->api($facebook_event_id, 'POST', $fb_event_array);
@@ -359,9 +359,9 @@ class TourneeEventsController extends TourneeAppController {
 				'privacy' => 'OPEN',
 			);
 			
-			$facebook_app_id = Configure::read('Tournee.facebook_app_id');
-			if(!empty($facebook_app_id)){
-                $fb_event_array['page_id'] = Configure::read('Tournee.facebook_app_id');
+			$facebook_page_id = Configure::read('Tournee.facebook_page_id');
+			if(!empty($facebook_page_id)){
+                $fb_event_array['page_id'] = $facebook_page_id;
             }
 			
 			return $facebook->api('/me/events', 'POST', $fb_event_array);
