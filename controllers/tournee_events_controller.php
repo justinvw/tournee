@@ -245,7 +245,7 @@ class TourneeEventsController extends TourneeAppController {
 		
 		$session = $facebook->getSession();
 		$login_url = $facebook->getLoginUrl(array(
-			'req_perms' => 'create_event, rsvp_event'
+			'req_perms' => 'create_event, rsvp_event, manage_pages'
 		));
 		
 		if(!empty($session)){
