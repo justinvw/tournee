@@ -31,7 +31,7 @@ class TourneeToursController extends TourneeAppController {
 		if(isset($this->params['slug'])){
 			$tour = $this->TourneeTour->find('first', array(
 				'conditions' => array(
-					'TourneeTour.slug' => $this->params['named']['slug'],
+					'TourneeTour.slug' => $this->params['slug'],
 					'TourneeTour.status' => 1,
 				),
 			));
