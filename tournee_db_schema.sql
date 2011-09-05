@@ -13,6 +13,17 @@ CREATE TABLE IF NOT EXISTS `tournee_events` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `tournee_event_attendees` (
+  `id` int(11) NOT NULL auto_increment,
+  `tournee_event_id` int(11) NOT NULL,
+  `facebook_user_id` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `updated` datetime NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 CREATE TABLE IF NOT EXISTS `tournee_locations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,

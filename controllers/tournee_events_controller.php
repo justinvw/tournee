@@ -245,7 +245,7 @@ class TourneeEventsController extends TourneeAppController {
 		
 		$session = $facebook->getSession();
 		$login_url = $facebook->getLoginUrl(array(
-			'req_perms' => 'create_event, rsvp_event'
+			'req_perms' => 'create_event, rsvp_event, manage_pages'
 		));
 		
 		if(!empty($session)){
@@ -282,20 +282,38 @@ class TourneeEventsController extends TourneeAppController {
 		));
 
 		$session = $facebook->getSession();
-
+        
+        if(strlen($event_data['TourneeTour']['TourneeTour']['title']) > 40){
+		    App::import('Helper', 'Text');
+    	    $texthelper = new TextHelper();
+    	    
+		    $event_data['TourneeTour']['TourneeTour']['title'] = $texthelper->truncate($event_data['TourneeTour']['TourneeTour']['title'], 40, array('ending' => '...', 'exact' => true, 'html' => false));
+		}
+		
+		if($event_data['TourneeLocation']['TourneeLocation']['address_country'] =='nl'){
+		    $event_data['TourneeLocation']['TourneeLocation']['address_country'] = 'Netherlands';
+		}
+        
 		if(!empty($session)){
 			$this->Session->write('uid', $session['uid']);
 			$fb_event_array = array(
 				'name' => $event_data['TourneeTour']['TourneeTour']['title'],
 				'description' => $event_data['TourneeTour']['TourneeTour']['description'],
 				'start_time' => $event_data['TourneeEvent']['start_datetime']['year'].$event_data['TourneeEvent']['start_datetime']['month'].$event_data['TourneeEvent']['start_datetime']['day'].'T'.$event_data['TourneeEvent']['start_datetime']['hour'].$event_data['TourneeEvent']['start_datetime']['min'],
+				'end_time' => $event_data['TourneeEvent']['end_datetime']['year'].$event_data['TourneeEvent']['end_datetime']['month'].$event_data['TourneeEvent']['end_datetime']['day'].'T'.$event_data['TourneeEvent']['end_datetime']['hour'].$event_data['TourneeEvent']['end_datetime']['min'],
 				'location' => $event_data['TourneeLocation']['TourneeLocation']['name'],
-				'street' => $event_data['TourneeLocation']['TourneeLocation']['address_street'],
+				'street' => $event_data['TourneeLocation']['TourneeLocation']['address_street'].' '.$event_data['TourneeLocation']['TourneeLocation']['address_number'],
 				'city' => $event_data['TourneeLocation']['TourneeLocation']['address_city'],
 				'zip' => $event_data['TourneeLocation']['TourneeLocation']['address_zip'],
 				'country' => $event_data['TourneeLocation']['TourneeLocation']['address_country'],
-				'privacy' => 'OPEN'
+				'privacy' => 'OPEN',
 			);
+            
+            $facebook_page_id = Configure::read('Tournee.facebook_page_id');
+            if(!empty($facebook_page_id)){
+                $fb_event_array['page_id'] = Configure::read('Tournee.facebook_page_id');
+            }
+            
 			return $facebook->api($facebook_event_id, 'POST', $fb_event_array);
 		}
 		else {
@@ -305,27 +323,47 @@ class TourneeEventsController extends TourneeAppController {
 	
 	function __post_facebook_event($event_data = null){
 		App::import('Vendor', 'Tournee.facebook/src/facebook');
+		
 		$facebook = new Facebook(array(
 			'appId' => Configure::read('Tournee.facebook_app_id'),
 			'secret' => Configure::read('Tournee.facebook_app_secret'),
 			'cookie' => true
 		));
-
+        
 		$session = $facebook->getSession();
 
 		if(!empty($session)){
 			$this->Session->write('uid', $session['uid']);
+			
+			if(strlen($event_data['TourneeTour']['TourneeTour']['title']) > 40){
+			    App::import('Helper', 'Text');
+        	    $texthelper = new TextHelper();
+        	    
+			    $event_data['TourneeTour']['TourneeTour']['title'] = $texthelper->truncate($event_data['TourneeTour']['TourneeTour']['title'], 40, array('ending' => '...', 'exact' => true, 'html' => false));
+			}
+			
+			if($event_data['TourneeLocation']['TourneeLocation']['address_country'] =='nl'){
+    		    $event_data['TourneeLocation']['TourneeLocation']['address_country'] = 'Netherlands';
+    		}
+			
 			$fb_event_array = array(
 				'name' => $event_data['TourneeTour']['TourneeTour']['title'],
 				'description' => $event_data['TourneeTour']['TourneeTour']['description'],
 				'start_time' => $event_data['TourneeEvent']['start_datetime']['year'].$event_data['TourneeEvent']['start_datetime']['month'].$event_data['TourneeEvent']['start_datetime']['day'].'T'.$event_data['TourneeEvent']['start_datetime']['hour'].$event_data['TourneeEvent']['start_datetime']['min'],
+				'end_time' => $event_data['TourneeEvent']['end_datetime']['year'].$event_data['TourneeEvent']['end_datetime']['month'].$event_data['TourneeEvent']['end_datetime']['day'].'T'.$event_data['TourneeEvent']['end_datetime']['hour'].$event_data['TourneeEvent']['end_datetime']['min'],
 				'location' => $event_data['TourneeLocation']['TourneeLocation']['name'],
-				'street' => $event_data['TourneeLocation']['TourneeLocation']['address_street'],
+				'street' => $event_data['TourneeLocation']['TourneeLocation']['address_street'].' '.$event_data['TourneeLocation']['TourneeLocation']['address_number'],
 				'city' => $event_data['TourneeLocation']['TourneeLocation']['address_city'],
 				'zip' => $event_data['TourneeLocation']['TourneeLocation']['address_zip'],
 				'country' => $event_data['TourneeLocation']['TourneeLocation']['address_country'],
-				'privacy' => 'OPEN'
+				'privacy' => 'OPEN',
 			);
+			
+			$facebook_page_id = Configure::read('Tournee.facebook_page_id');
+			if(!empty($facebook_page_id)){
+                $fb_event_array['page_id'] = $facebook_page_id;
+            }
+			
 			return $facebook->api('/me/events', 'POST', $fb_event_array);
 		}
 		else {

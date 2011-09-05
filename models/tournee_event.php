@@ -4,6 +4,12 @@ class TourneeEvent extends TourneeAppModel {
 	var $useTable = 'tournee_events';
 	
 	var $belongsTo = array('Tournee.TourneeTour', 'Tournee.TourneeLocation');
+	var $hasMany = array(
+	    'TourneeEventAttendee' => array(
+			'classname' => 'Tournee.TourneeEventAttendee',
+			'dependent' => false
+		)
+	);
 	
 	var $validate = array(
 		'tournee_tour_id' => array(
