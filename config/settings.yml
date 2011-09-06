@@ -5,6 +5,7 @@ Tournee.facebook_intergration: disabled
 Tournee.facebook_app_id: your-fb-app-id
 Tournee.facebook_app_secret: your-fb-app-secret
 Tournee.facebook_api_key: your-fb-api-key
+Tournee.comedyapp_intergration: disabled
 Tournee.comedyapp_xml_rpc_address: http://localhost/
 Tournee.comedyapp_username: username
 Tournee.comedyapp_password: password
