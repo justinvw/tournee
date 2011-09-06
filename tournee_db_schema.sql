@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS `tournee_events` (
   `tournee_location_id` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `facebook_event_id` bigint(20) NOT NULL,
+  'comedyapp_id' int(11) NOT NULL,
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`)

@@ -39,40 +39,62 @@ class TourneeEventsController extends TourneeAppController {
 		if(!empty($this->data)){
 			$this->TourneeEvent->create();
 			if($this->TourneeEvent->save($this->data)){
-				if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
-					$this->data['TourneeTour'] = $this->TourneeEvent->TourneeTour->findById($this->data['TourneeEvent']['tournee_tour_id']);
+			    if(Configure::read('Tournee.facebook_intergration') == 'enabled' || Configure::read('Tournee.comedyapp_intergration')){
+			        $flash_message = array();
+			        			        
+			        $this->data['TourneeTour'] = $this->TourneeEvent->TourneeTour->findById($this->data['TourneeEvent']['tournee_tour_id']);
 					$this->data['TourneeLocation'] = $this->TourneeEvent->TourneeLocation->findById($this->data['TourneeEvent']['tournee_location_id']);
-					$fb_event = $this->__post_facebook_event($this->data);
-					if(array_key_exists('id', $fb_event)){
-						$this->TourneeEvent->read(null, $this->TourneeEvent->id);
-						$this->TourneeEvent->set(array('facebook_event_id' => $fb_event['id']));
+					
+					if(Configure::read('Tournee.comedyapp_intergration') == 'enabled'){
+					    $comedyapp_id = $this->__add_comedy_app_event($this->data);
+					    $this->TourneeEvent->read(null, $this->TourneeEvent->id);
+						$this->TourneeEvent->set(array('comedyapp_id' => $comedyapp_id));
 						$this->TourneeEvent->save();
-						$flash_message = array(
-							'message' => __('Event saved and posted to Facebook', true),
-							'class' => 'success'
+						
+						$flash_message[] = array(
+						    'code' => 'success',
+						    'message' => 'Posted to ComedyApp.'  
 						);
 					}
-					else {
-						$flash_message = array(
-							'message' => __('Event saved, but there was a problem posting it to Facebook', true),
-							'class' => 'error'
-						);
-					}
-				}
-				else {
-					$flash_message = array(
-						'message' => __('Event saved!', true),
-						'class' => 'success'
-					);
+					
+					if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
+    					$fb_event = $this->__post_facebook_event($this->data);
+    					if(array_key_exists('id', $fb_event)){
+    						$this->TourneeEvent->read(null, $this->TourneeEvent->id);
+    						$this->TourneeEvent->set(array('facebook_event_id' => $fb_event['id']));
+    						$this->TourneeEvent->save();
+    						    						
+    						$flash_message[] = array(
+    						    'code' => 'success',
+    						    'message' => 'Posted to Facebook.'  
+    						);
+    					}
+    					else {
+    						$flash_message[] = array(
+    						    'code' => 'error',
+    						    'message' => 'Failed posting to Facebook.'
+    						);
+    					}
+    				}
+			    }
+				
+				$final_flash_message = array('message' => 'The event is saved. ', 'code' => 'success');
+				foreach($flash_message as $message){
+				    $final_flash_message['message'] .= ' '.$message['message'];
+				    
+				    if($message['code'] == 'error'){
+				        $final_flash_message['code'] = 'error';
+				    }
 				}
 				
-				$this->Session->setFlash($flash_message['message'], 'default', array('class' => $flash_message['class']));
+				$this->Session->setFlash($final_flash_message['message'], 'default', array('class' => $final_flash_message['code']));
 				$this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
 			}
 			else {
 				$this->Session->setFlash(sprintf(__('The event could not be saved. Please, try again', true)), 'default', array('class' => 'error'));
 			}
 		}
+		
 		if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
 			$this->__connect_to_facebook();
 		}
@@ -108,52 +130,76 @@ class TourneeEventsController extends TourneeAppController {
 		if(!empty($this->data)){
 			$this->TourneeEvent->id = $id;
 			if($this->TourneeEvent->save($this->data)){
-				if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
-					$this->data['TourneeTour'] = $this->TourneeEvent->TourneeTour->findById($this->data['TourneeEvent']['tournee_tour_id']);
+			    if(Configure::read('Tournee.facebook_intergration') == 'enabled' || Configure::read('Tournee.comedyapp_intergration')){
+			        $flash_message = array();
+			        
+			        $this->data['TourneeTour'] = $this->TourneeEvent->TourneeTour->findById($this->data['TourneeEvent']['tournee_tour_id']);
 					$this->data['TourneeLocation'] = $this->TourneeEvent->TourneeLocation->findById($this->data['TourneeEvent']['tournee_location_id']);
 					
-					if($event['TourneeEvent']['facebook_event_id']){
-						$fb_event = $this->__update_facebook_event($event['TourneeEvent']['facebook_event_id'], $this->data);
-						if($fb_event == 1){
-							$flash_message = array(
-								'message' => __('Event updated and posted to Facebook', true),
-								'class' => 'success'
-							);
+					if(Configure::read('Tournee.comedyapp_intergration') == 'enabled'){
+					    if($event['TourneeEvent']['comedyapp_id']){
+					        $this->__edit_comedy_app_event($this->data, $event['TourneeEvent']['comedyapp_id']);
+					        $flash_message[] = array(
+    						    'code' => 'success',
+    						    'message' => 'Updated ComedyApp entry.'
+    						);
+					    }
+					    else {
+					        $comedyapp_id = $this->__add_comedy_app_event($this->data);
+    					    $this->TourneeEvent->read(null, $this->TourneeEvent->id);
+    						$this->TourneeEvent->set(array('comedyapp_id' => $comedyapp_id));
+    						$this->TourneeEvent->save();
+
+    						$flash_message[] = array(
+    						    'code' => 'success',
+    						    'message' => 'Posted to ComedyApp.'  
+    						);
+					    }
+					}
+					
+			        if(Configure::read('Tournee.facebook_intergration') == 'enabled'){
+			            if($event['TourneeEvent']['facebook_event_id']){
+			                $fb_event = $this->__update_facebook_event($event['TourneeEvent']['facebook_event_id'], $this->data);
+    						if($fb_event == 1){
+    						    $flash_message[] = array(
+        						    'code' => 'success',
+        						    'message' => 'Updated Facebook entry.'
+        						);
+    						}
+    						else {
+    							$flash_message[] = array(
+        						    'code' => 'error',
+        						    'message' => 'Failed posting to Facebook.'
+        						);
+    						}
 						}
 						else {
-							$flash_message = array(
-								'message' => __('Event updated, but there was a problem posting it to Facebook', true),
-								'class' => 'error'
-							);
+						    $fb_event = $this->__post_facebook_event($this->data);
+    						if(array_key_exists('id', $fb_event)){
+    							$this->TourneeEvent->read(null, $this->TourneeEvent->id);
+    							$this->TourneeEvent->set(array('facebook_event_id' => $fb_event['id']));
+    							$this->TourneeEvent->save();
+    							$flash_message[] = array(
+        						    'code' => 'success',
+        						    'message' => 'Posted to Facebook.'  
+        						);
+    						}
+    						else {
+    							$flash_message[] = array(
+        						    'code' => 'error',
+        						    'message' => 'Failed posting to Facebook.'
+        						);
+    						}
 						}
-					}
-					else {
-						$fb_event = $this->__post_facebook_event($this->data);
-						if(array_key_exists('id', $fb_event)){
-							$this->TourneeEvent->read(null, $this->TourneeEvent->id);
-							$this->TourneeEvent->set(array('facebook_event_id' => $fb_event['id']));
-							$this->TourneeEvent->save();
-							$flash_message = array(
-								'message' => __('Event updated and posted to Facebook', true),
-								'class' => 'success'
-							);
-						}
-						else {
-							$flash_message = array(
-								'message' => __('Event updated, but there was a problem posting it to Facebook', true),
-								'class' => 'error'
-							);
-						}
-					}
-				}
-				else {
-					$flash_message = array(
-						'message' => __('The event has been saved', true),
-						'class' => 'success'
-					);
-				}
+			        }
+			    }
 				
-				$this->Session->setFlash($flash_message['message'], 'default', array('class' => $flash_message['class']));
+				$locations = array();
+        		foreach($locations_available as $location){
+        			$locations[$location['TourneeLocation']['id']] = $location['TourneeLocation']['name'].' ('.$location['TourneeLocation']['address_city'].')';
+        		}
+				
+				$this->Session->setFlash($locations['message'], 'default', array('class' => $locations['class']));
                 $this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
 			}
 			else {
@@ -369,6 +415,81 @@ class TourneeEventsController extends TourneeAppController {
 		else {
 			return false;
 		}
+	}
+	
+	function __comedy_app_request($context){
+	    $curl = curl_init();
+	    curl_setopt($curl, CURLOPT_URL, Configure::read('Tournee.comedyapp_xml_rpc_address'));
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-Type: text/xml"));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $context);
+        
+        $response = curl_exec($curl);
+        return $response;
+	}
+	
+	function __add_comedy_app_event($event_data){
+	    App::import('Helper', 'Text');
+	    $texthelper = new TextHelper();
+	    
+	    $request = xmlrpc_encode_request('comedy.addAgenda',
+	        array(
+	            Configure::read('Tournee.comedyapp_username'),
+	            Configure::read('Tournee.comedyapp_password'),
+	            $event_data['TourneeTour']['TourneeTour']['title'],
+	            $event_data['TourneeTour']['TourneeTour']['description'],
+	            $texthelper->truncate(strip_tags($event_data['TourneeTour']['TourneeTour']['description']), 75, array('ending' => '...', 'exact' => true, 'html' => false)),
+	            $event_data['TourneeLocation']['TourneeLocation']['name'],
+	            $event_data['TourneeLocation']['TourneeLocation']['address_street'].' '.$event_data['TourneeLocation']['TourneeLocation']['address_number'],
+	            $event_data['TourneeLocation']['TourneeLocation']['address_city'],
+	            $event_data['TourneeLocation']['TourneeLocation']['website'],
+	            array(
+	                array(
+	                    'date' => $event_data['TourneeEvent']['start_datetime']['day'].'-'.$event_data['TourneeEvent']['start_datetime']['month'].'-'.$event_data['TourneeEvent']['start_datetime']['year'],
+	                    'time' => $event_data['TourneeEvent']['start_datetime']['hour'].':'.$event_data['TourneeEvent']['start_datetime']['min']
+	                ),
+	                array(
+	                    'date' => $event_data['TourneeEvent']['end_datetime']['day'].'-'.$event_data['TourneeEvent']['end_datetime']['month'].'-'.$event_data['TourneeEvent']['end_datetime']['year'],
+	                    'time' => $event_data['TourneeEvent']['end_datetime']['hour'].':'.$event_data['TourneeEvent']['end_datetime']['min']
+	                ),
+	            )			
+	        ), array('encoding' => 'utf-8')
+	    );
+	    
+	    return xmlrpc_decode($this->__comedy_app_request($request));
+	}
+	
+	function __edit_comedy_app_event($event_data, $comedyapp_id){
+	    App::import('Helper', 'Text');
+	    $texthelper = new TextHelper();
+	    
+	    $request = xmlrpc_encode_request('comedy.editAgenda',
+	        array(
+	            Configure::read('Tournee.comedyapp_username'),
+	            Configure::read('Tournee.comedyapp_password'),
+	            $comedyapp_id,
+	            $event_data['TourneeTour']['TourneeTour']['title'],
+	            $event_data['TourneeTour']['TourneeTour']['description'],
+	            $texthelper->truncate(strip_tags($event_data['TourneeTour']['TourneeTour']['description']), 75, array('ending' => '...', 'exact' => true, 'html' => false)),
+	            $event_data['TourneeLocation']['TourneeLocation']['name'],
+	            $event_data['TourneeLocation']['TourneeLocation']['address_street'].' '.$event_data['TourneeLocation']['TourneeLocation']['address_number'],
+	            $event_data['TourneeLocation']['TourneeLocation']['address_city'],
+	            $event_data['TourneeLocation']['TourneeLocation']['website'],
+	            array(
+	                array(
+	                    'date' => $event_data['TourneeEvent']['start_datetime']['day'].'-'.$event_data['TourneeEvent']['start_datetime']['month'].'-'.$event_data['TourneeEvent']['start_datetime']['year'],
+	                    'time' => $event_data['TourneeEvent']['start_datetime']['hour'].':'.$event_data['TourneeEvent']['start_datetime']['min']
+	                ),
+	                array(
+	                    'date' => $event_data['TourneeEvent']['end_datetime']['day'].'-'.$event_data['TourneeEvent']['end_datetime']['month'].'-'.$event_data['TourneeEvent']['end_datetime']['year'],
+	                    'time' => $event_data['TourneeEvent']['end_datetime']['hour'].':'.$event_data['TourneeEvent']['end_datetime']['min']
+	                ),
+	            )			
+	        ), array('encoding' => 'utf-8')
+	    );
+	    
+	    return xmlrpc_decode($this->__comedy_app_request($request));
 	}
 }
 ?>
