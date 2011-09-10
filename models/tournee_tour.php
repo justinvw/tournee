@@ -6,7 +6,8 @@ class TourneeTour extends TourneeAppModel {
 	var $hasMany = array(
 		'TourneeEvent' => array(
 			'classname' => 'Trounee.TourEvent',
-			'dependent' => true
+			'dependent' => true,
+			'order' => 'start_datetime'
 		),
 		'TourneePhoto' => array(
 			'classname' => 'Tournee.TourPhoto',
