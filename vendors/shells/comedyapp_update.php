@@ -63,12 +63,12 @@ class ComedyappUpdateShell extends Shell {
 	            array(
 	                array(
 	                    'date' => date('d-m-Y', strtotime($event_data['TourneeEvent']['start_datetime'])),
-	                    'time' => date('H:m', strtotime($event_data['TourneeEvent']['start_datetime']))
+	                    'time' => date('H:i', strtotime($event_data['TourneeEvent']['start_datetime']))
 	                ),
-	                array(
-	                    'date' => date('d-m-Y', strtotime($event_data['TourneeEvent']['end_datetime'])),
-                        'time' => date('H:m', strtotime($event_data['TourneeEvent']['end_datetime']))
-                    ),
+	                #array(
+	                #    'date' => date('d-m-Y', strtotime($event_data['TourneeEvent']['end_datetime'])),
+                    #    'time' => date('H:m', strtotime($event_data['TourneeEvent']['end_datetime']))
+                    #),
 	            )			
 	        ), array('encoding' => 'utf-8')
 	    );
@@ -98,10 +98,10 @@ class ComedyappUpdateShell extends Shell {
 	                    'date' => date('d-m-Y', strtotime($event_data['TourneeEvent']['start_datetime'])),
 	                    'time' => date('H:i', strtotime($event_data['TourneeEvent']['start_datetime']))
 	                ),
-	                array(
-	                    'date' => date('d-m-Y', strtotime($event_data['TourneeEvent']['end_datetime'])),
-                        'time' => date('H:i', strtotime($event_data['TourneeEvent']['end_datetime']))
-                    ),
+	                #array(
+	                #    'date' => date('d-m-Y', strtotime($event_data['TourneeEvent']['end_datetime'])),
+                    #    'time' => date('H:i', strtotime($event_data['TourneeEvent']['end_datetime']))
+                    #),
 	            )			
 	        ), array('encoding' => 'utf-8')
 	    );

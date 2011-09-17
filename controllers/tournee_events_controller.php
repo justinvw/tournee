@@ -449,10 +449,10 @@ class TourneeEventsController extends TourneeAppController {
 	                    'date' => $event_data['TourneeEvent']['start_datetime']['day'].'-'.$event_data['TourneeEvent']['start_datetime']['month'].'-'.$event_data['TourneeEvent']['start_datetime']['year'],
 	                    'time' => $event_data['TourneeEvent']['start_datetime']['hour'].':'.$event_data['TourneeEvent']['start_datetime']['min']
 	                ),
-	                array(
-	                    'date' => $event_data['TourneeEvent']['end_datetime']['day'].'-'.$event_data['TourneeEvent']['end_datetime']['month'].'-'.$event_data['TourneeEvent']['end_datetime']['year'],
-	                    'time' => $event_data['TourneeEvent']['end_datetime']['hour'].':'.$event_data['TourneeEvent']['end_datetime']['min']
-	                ),
+	                #array(
+	                #    'date' => $event_data['TourneeEvent']['end_datetime']['day'].'-'.$event_data['TourneeEvent']['end_datetime']['month'].'-'.$event_data['TourneeEvent']['end_datetime']['year'],
+	                #    'time' => $event_data['TourneeEvent']['end_datetime']['hour'].':'.$event_data['TourneeEvent']['end_datetime']['min']
+	                #),
 	            )			
 	        ), array('encoding' => 'utf-8')
 	    );
@@ -481,10 +481,10 @@ class TourneeEventsController extends TourneeAppController {
 	                    'date' => $event_data['TourneeEvent']['start_datetime']['day'].'-'.$event_data['TourneeEvent']['start_datetime']['month'].'-'.$event_data['TourneeEvent']['start_datetime']['year'],
 	                    'time' => $event_data['TourneeEvent']['start_datetime']['hour'].':'.$event_data['TourneeEvent']['start_datetime']['min']
 	                ),
-	                array(
-	                    'date' => $event_data['TourneeEvent']['end_datetime']['day'].'-'.$event_data['TourneeEvent']['end_datetime']['month'].'-'.$event_data['TourneeEvent']['end_datetime']['year'],
-	                    'time' => $event_data['TourneeEvent']['end_datetime']['hour'].':'.$event_data['TourneeEvent']['end_datetime']['min']
-	                ),
+	                #array(
+	                #    'date' => $event_data['TourneeEvent']['end_datetime']['day'].'-'.$event_data['TourneeEvent']['end_datetime']['month'].'-'.$event_data['TourneeEvent']['end_datetime']['year'],
+	                #    'time' => $event_data['TourneeEvent']['end_datetime']['hour'].':'.$event_data['TourneeEvent']['end_datetime']['min']
+	                #),
 	            )			
 	        ), array('encoding' => 'utf-8')
 	    );
