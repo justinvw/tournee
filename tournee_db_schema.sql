@@ -57,6 +57,7 @@ CREATE TABLE IF NOT EXISTS `tournee_tours` (
   `image_description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image_creator` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
+  `show_on_index` tinyint(1) NOT NULL DEFAULT '1',
   `created` datetime NOT NULL,
   `updated` datetime NOT NULL,
   PRIMARY KEY (`id`),

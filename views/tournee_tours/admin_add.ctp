@@ -27,6 +27,10 @@
 					echo $form->input('file', array('label' => __('Picture/poster', true), 'type' => 'file'));
 					echo $form->input('image_description');
 					echo $form->input('image_creator');
+					echo $form->input('show_on_index', array(
+					    'label' => __('Show on tour index', true),
+					    'checked' => 'checked'
+					));
 					echo $form->input('status', array(
 						'label' => __('Published', true),
 						'checked' => 'checked',
