@@ -237,6 +237,10 @@ class TourneeEventsController extends TourneeAppController {
 		$event = $this->TourneeEvent->findById($id);
 		
 		if($this->TourneeEvent->delete($id)){
+		    if($event['TourneeEvent']['comedyapp_id']){
+		        $this->__delete_comedy_app_event($event['TourneeEvent']['comedyapp_id']);
+		    }
+		    
 			if($event['TourneeEvent']['facebook_event_id'] != 0){
 				$fb_event = $this->__delete_facebook_event($event['TourneeEvent']['facebook_event_id']);
 				if($fb_event == 1){
@@ -487,6 +491,18 @@ class TourneeEventsController extends TourneeAppController {
 	                #),
 	            )			
 	        ), array('encoding' => 'utf-8')
+	    );
+	    
+	    return xmlrpc_decode($this->__comedy_app_request($request));
+	}
+	
+	function __delete_comedy_app_event($comedyapp_id){
+	    $request = xmlrpc_encode_request('comedy.remove_agenda',
+	        array(
+	            Configure::read('Tournee.comedyapp_username'),
+	            Configure::read('Tournee.comedyapp_password'),
+	            $comedyapp_id
+	        )
 	    );
 	    
 	    return xmlrpc_decode($this->__comedy_app_request($request));
