@@ -332,7 +332,8 @@ class TourneeEventsController extends TourneeAppController {
 		$facebook = new Facebook(array(
 			'appId' => Configure::read('Tournee.facebook_app_id'),
 			'secret' => Configure::read('Tournee.facebook_app_secret'),
-			'cookie' => true
+			'cookie' => true,
+			'fileUpload' => true
 		));
 
 		$session = $facebook->getSession();
@@ -363,6 +364,11 @@ class TourneeEventsController extends TourneeAppController {
 				'privacy' => 'OPEN',
 			);
             
+            if(!empty($event_data['TourneeTour']['TourneeTour']['image_path'])){
+                $tour_img = APP.'webroot'.DS.'uploads'.DS.$event_data['TourneeTour']['TourneeTour']['image_path'];
+                $fb_event_array[basename($tour_img)] = '@'.$tour_img;
+            }
+            
             $facebook_page_id = Configure::read('Tournee.facebook_page_id');
             if(!empty($facebook_page_id)){
                 $fb_event_array['page_id'] = Configure::read('Tournee.facebook_page_id');
@@ -381,7 +387,8 @@ class TourneeEventsController extends TourneeAppController {
 		$facebook = new Facebook(array(
 			'appId' => Configure::read('Tournee.facebook_app_id'),
 			'secret' => Configure::read('Tournee.facebook_app_secret'),
-			'cookie' => true
+			'cookie' => true,
+			'fileUpload' => true
 		));
         
 		$session = $facebook->getSession();
@@ -412,6 +419,11 @@ class TourneeEventsController extends TourneeAppController {
 				'country' => $event_data['TourneeLocation']['TourneeLocation']['address_country'],
 				'privacy' => 'OPEN',
 			);
+			
+			if(!empty($event_data['TourneeTour']['TourneeTour']['image_path'])){
+                $tour_img = APP.'webroot'.DS.'uploads'.DS.$event_data['TourneeTour']['TourneeTour']['image_path'];
+                $fb_event_array[basename($tour_img)] = '@'.$tour_img;
+            }
 			
 			$facebook_page_id = Configure::read('Tournee.facebook_page_id');
 			if(!empty($facebook_page_id)){
