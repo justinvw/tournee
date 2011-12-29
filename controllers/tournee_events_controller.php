@@ -194,13 +194,17 @@ class TourneeEventsController extends TourneeAppController {
 			        }
 			    }
 				
-				$locations = array();
-        		foreach($locations_available as $location){
-        			$locations[$location['TourneeLocation']['id']] = $location['TourneeLocation']['name'].' ('.$location['TourneeLocation']['address_city'].')';
-        		}
+				$final_flash_message = array('message' => 'The event is saved. ', 'code' => 'success');
+				foreach($flash_message as $message){
+				    $final_flash_message['message'] .= ' '.$message['message'];
+				    
+				    if($message['code'] == 'error'){
+				        $final_flash_message['code'] = 'error';
+				    }
+				}
 				
-				$this->Session->setFlash($locations['message'], 'default', array('class' => $locations['class']));
-                $this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
+				$this->Session->setFlash($final_flash_message['message'], 'default', array('class' => $final_flash_message['code']));
+				$this->redirect(array('controller' => 'tournee_events', 'action' => 'index'));
 			}
 			else {
 				$this->Session->setFlash(sprintf(__('The event could not be saved. Please, try again.', true)));
@@ -398,7 +402,7 @@ class TourneeEventsController extends TourneeAppController {
 			
 			$fb_event_array = array(
 				'name' => $event_data['TourneeTour']['TourneeTour']['title'],
-				'description' => $event_data['TourneeTour']['TourneeTour']['description'],
+				'description' => strip_tags($event_data['TourneeTour']['TourneeTour']['description']),
 				'start_time' => $event_data['TourneeEvent']['start_datetime']['year'].$event_data['TourneeEvent']['start_datetime']['month'].$event_data['TourneeEvent']['start_datetime']['day'].'T'.$event_data['TourneeEvent']['start_datetime']['hour'].$event_data['TourneeEvent']['start_datetime']['min'],
 				'end_time' => $event_data['TourneeEvent']['end_datetime']['year'].$event_data['TourneeEvent']['end_datetime']['month'].$event_data['TourneeEvent']['end_datetime']['day'].'T'.$event_data['TourneeEvent']['end_datetime']['hour'].$event_data['TourneeEvent']['end_datetime']['min'],
 				'location' => $event_data['TourneeLocation']['TourneeLocation']['name'],
