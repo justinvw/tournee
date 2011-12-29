@@ -352,7 +352,7 @@ class TourneeEventsController extends TourneeAppController {
 			$this->Session->write('uid', $session['uid']);
 			$fb_event_array = array(
 				'name' => $event_data['TourneeTour']['TourneeTour']['title'],
-				'description' => $event_data['TourneeTour']['TourneeTour']['description'],
+				'description' => strip_tags($event_data['TourneeTour']['TourneeTour']['description']),
 				'start_time' => $event_data['TourneeEvent']['start_datetime']['year'].$event_data['TourneeEvent']['start_datetime']['month'].$event_data['TourneeEvent']['start_datetime']['day'].'T'.$event_data['TourneeEvent']['start_datetime']['hour'].$event_data['TourneeEvent']['start_datetime']['min'],
 				'end_time' => $event_data['TourneeEvent']['end_datetime']['year'].$event_data['TourneeEvent']['end_datetime']['month'].$event_data['TourneeEvent']['end_datetime']['day'].'T'.$event_data['TourneeEvent']['end_datetime']['hour'].$event_data['TourneeEvent']['end_datetime']['min'],
 				'location' => $event_data['TourneeLocation']['TourneeLocation']['name'],
