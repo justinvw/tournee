@@ -2,6 +2,7 @@
 class TourneeLocation extends TourneeAppModel {
 	var $name = 'TourneeLocation';
 	var $useTable = 'tournee_locations';
+	var $order = array('address_city' => 'ASC', 'name' => 'ASC');
 	
 	var $hasMany = array(
 		'TourneeEvent' => array(
